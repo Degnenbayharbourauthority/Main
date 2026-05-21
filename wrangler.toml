@@ -1,6 +1,0 @@
-name = "dbha-registration"
-compatibility_date = "2026-05-21"
-
-[[send_email]]
-name = "SEND_EMAIL"
-destination_address = "registration@degnenbayharbourauthority.ca"
