@@ -1,0 +1,420 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Degnen Bay Harbour Authority | Visitor Registration</title>
+  <meta name="description" content="Degnen Bay Harbour Authority visitor registration and transient moorage rates." />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+  <style>
+    :root {
+      --navy: #062f5f;
+      --navy-dark: #021f42;
+      --blue: #0e5f94;
+      --red: #b51f2b;
+      --text: #10233f;
+      --muted: #5e6b7a;
+      --border: #d7dee8;
+      --bg: #f6f8fb;
+      --white: #ffffff;
+      --shadow: 0 14px 35px rgba(2, 31, 66, 0.14);
+      --radius: 14px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.45;
+    }
+
+    .hero {
+      position: relative;
+      min-height: 430px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.96) 0%, rgba(255,255,255,.72) 39%, rgba(255,255,255,.10) 70%),
+        url("banner.jpg") center / cover no-repeat;
+      border-bottom: 6px solid var(--navy);
+    }
+
+    .hero-inner {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 34px 24px 120px;
+    }
+
+    .logo {
+      width: min(520px, 86vw);
+      max-height: 170px;
+      object-fit: contain;
+      object-position: left center;
+      display: block;
+    }
+
+    .arrival-notice {
+      position: absolute;
+      left: 50%;
+      bottom: -38px;
+      transform: translateX(-50%);
+      width: min(940px, calc(100% - 32px));
+      background: var(--navy);
+      color: white;
+      border-radius: var(--radius);
+      padding: 22px 28px;
+      box-shadow: var(--shadow);
+      text-align: center;
+      font-size: clamp(1.05rem, 2.2vw, 1.55rem);
+      font-weight: 700;
+    }
+
+    main {
+      max-width: 1180px;
+      margin: 72px auto 34px;
+      padding: 0 24px;
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 34px;
+      align-items: start;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 28px rgba(2, 31, 66, .07);
+      padding: 30px;
+    }
+
+    h1, h2, h3 { color: var(--navy-dark); margin-top: 0; }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.1rem);
+      line-height: 1.05;
+      margin-bottom: 0;
+    }
+
+    h2 {
+      font-size: clamp(1.55rem, 2.6vw, 2rem);
+      margin-bottom: 18px;
+    }
+
+    h3 {
+      font-size: 1.35rem;
+      margin: 28px 0 14px;
+    }
+
+    .must-register {
+      color: var(--navy);
+      font-size: clamp(1.6rem, 2.8vw, 2.15rem);
+      font-weight: 800;
+      letter-spacing: .02em;
+      border-bottom: 2px solid var(--navy);
+      padding-bottom: 18px;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+    }
+
+    .rates {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    .rates li {
+      display: flex;
+      gap: 14px;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 1.08rem;
+    }
+
+    .rates li:last-child { border-bottom: none; }
+
+    .rate-icon {
+      flex: 0 0 auto;
+      width: 44px;
+      height: 44px;
+      border-radius: 999px;
+      background: var(--navy);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 800;
+    }
+
+    .rate-title {
+      display: block;
+      font-weight: 800;
+      color: var(--navy-dark);
+      font-size: 1.08rem;
+    }
+
+    .note {
+      margin-top: 28px;
+      padding: 18px;
+      background: #eaf3fb;
+      border: 1px solid #c8dced;
+      border-radius: 10px;
+      color: var(--navy-dark);
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px 16px;
+    }
+
+    .full { grid-column: 1 / -1; }
+
+    label {
+      display: block;
+      font-weight: 700;
+      color: var(--navy-dark);
+      margin-bottom: 6px;
+      font-size: .95rem;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px 13px;
+      border: 1px solid #bdc8d6;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #fff;
+      color: var(--text);
+    }
+
+    input[readonly] {
+      background: #f0f3f7;
+      color: #435266;
+      cursor: not-allowed;
+    }
+
+    input:focus, select:focus {
+      outline: 3px solid rgba(14, 95, 148, .18);
+      border-color: var(--blue);
+    }
+
+    .turnstile-wrap {
+      margin: 18px 0 10px;
+      min-height: 65px;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 9px;
+      background: var(--navy);
+      color: white;
+      padding: 15px 18px;
+      font-size: 1.06rem;
+      font-weight: 800;
+      cursor: pointer;
+      letter-spacing: .02em;
+    }
+
+    button:hover { background: var(--navy-dark); }
+    button:disabled { opacity: .7; cursor: wait; }
+
+    .status {
+      margin-top: 14px;
+      font-weight: 700;
+      min-height: 24px;
+    }
+
+    .status.success { color: #126b35; }
+    .status.error { color: #9e1c28; }
+
+    footer {
+      background: var(--navy-dark);
+      color: white;
+      text-align: center;
+      padding: 24px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 850px) {
+      .hero { min-height: 360px; }
+      .hero-inner { padding-bottom: 100px; }
+      main {
+        grid-template-columns: 1fr;
+        margin-top: 64px;
+      }
+      .form-grid { grid-template-columns: 1fr; }
+      .arrival-notice {
+        font-size: 1rem;
+        padding: 18px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <!-- Put your logo.svg file in the same folder as this index.html file. -->
+      <img class="logo" src="logo.svg" alt="Degnen Bay Harbour Authority" />
+    </div>
+    <div class="arrival-notice">
+      Please text harbour manager upon arrival: <a style="color:white" href="sms:2503278478">250-327-8478</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="card" aria-labelledby="rates-title">
+      <div class="must-register" id="rates-title">All users must register</div>
+
+      <h3>Transient moorage rates:</h3>
+      <ul class="rates">
+        <li>
+          <span class="rate-icon">D</span>
+          <span><span class="rate-title">Dinghy</span>$5.00 per day</span>
+        </li>
+        <li>
+          <span class="rate-icon">☀</span>
+          <span><span class="rate-title">All Boats — Daytime</span>$12.00 until 20:00 hours</span>
+        </li>
+        <li>
+          <span class="rate-icon">ft</span>
+          <span><span class="rate-title">All Boats — Overnight</span>$1.00 per linear foot</span>
+        </li>
+        <li>
+          <span class="rate-icon">⚡</span>
+          <span><span class="rate-title">Electricity connection</span>$10.00 per day</span>
+        </li>
+      </ul>
+
+      <div class="note">
+        Thank you for helping us keep Degnen Bay safe and welcoming.
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="form-title">
+      <h2 id="form-title">Visitor Registration Form</h2>
+
+      <form id="registrationForm">
+        <div class="form-grid">
+          <div class="full">
+            <label for="date">Date</label>
+            <input id="date" name="date" type="text" readonly />
+          </div>
+
+          <div>
+            <label for="name">Name *</label>
+            <input id="name" name="name" autocomplete="name" required />
+          </div>
+
+          <div>
+            <label for="email">Email *</label>
+            <input id="email" name="email" type="email" autocomplete="email" required />
+          </div>
+
+          <div>
+            <label for="phone">Phone / Cell *</label>
+            <input id="phone" name="phone" type="tel" autocomplete="tel" required />
+          </div>
+
+          <div>
+            <label for="nights">Number of nights stay *</label>
+            <input id="nights" name="nights" type="number" min="0" step="1" required />
+          </div>
+
+          <div>
+            <label for="vesselName">Vessel name *</label>
+            <input id="vesselName" name="vesselName" required />
+          </div>
+
+          <div>
+            <label for="vesselType">Vessel type *</label>
+            <input id="vesselType" name="vesselType" required />
+          </div>
+
+          <div>
+            <label for="vesselId">Vessel ID *</label>
+            <input id="vesselId" name="vesselId" required />
+          </div>
+
+          <div>
+            <label for="totalLength">Total length / ft *</label>
+            <input id="totalLength" name="totalLength" type="number" min="1" step="0.1" required />
+          </div>
+        </div>
+
+        <!-- Replace YOUR_TURNSTILE_SITE_KEY with your Cloudflare Turnstile site key. -->
+        <div class="turnstile-wrap">
+          <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+        </div>
+
+        <!-- Hidden field to catch simple bots. Real users will not see this. -->
+        <input type="text" name="website" tabindex="-1" autocomplete="off" style="position:absolute;left:-10000px;opacity:0" />
+
+        <button id="sendButton" type="submit">Send Registration</button>
+        <div id="status" class="status" role="status" aria-live="polite"></div>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    Thank you for visiting Degnen Bay. Safe travels.
+  </footer>
+
+  <script>
+    const form = document.getElementById("registrationForm");
+    const statusEl = document.getElementById("status");
+    const button = document.getElementById("sendButton");
+    const dateInput = document.getElementById("date");
+
+    function setToday() {
+      const today = new Date();
+      dateInput.value = today.toLocaleDateString("en-CA", {
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      });
+    }
+
+    setToday();
+
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+
+      statusEl.className = "status";
+      statusEl.textContent = "Sending registration...";
+      button.disabled = true;
+
+      try {
+        const formData = new FormData(form);
+        formData.set("date", dateInput.value);
+
+        const response = await fetch("/api/register", {
+          method: "POST",
+          body: formData
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          throw new Error(result.message || "Registration could not be sent.");
+        }
+
+        form.reset();
+        setToday();
+
+        if (window.turnstile) {
+          window.turnstile.reset();
+        }
+
+        statusEl.className = "status success";
+        statusEl.textContent = "Registration sent. Thank you.";
+      } catch (error) {
+        statusEl.className = "status error";
+        statusEl.textContent = error.message || "Something went wrong. Please text the harbour manager.";
+      } finally {
+        button.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
