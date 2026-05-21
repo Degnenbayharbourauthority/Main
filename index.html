@@ -1,102 +1,317 @@
-<!doctype html>
-<html lang="en-CA">
+<!DOCTYPE html>
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Degnen Bay Harbour Authority | Visitor Registration</title>
-  <meta name="description" content="Visitor registration and transient moorage rates for Degnen Bay Harbour Authority." />
-  <link rel="stylesheet" href="/style.css" />
-  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
-  <script defer src="/script.js"></script>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Degnen Bay Harbour Authority - Visitor Registration</title>
+
+    <link rel="stylesheet" href="style.css" />
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #f2f5f8;
+            color: #1f2937;
+            line-height: 1.5;
+        }
+
+        .banner {
+            position: relative;
+            width: 100%;
+            height: 420px;
+            overflow: hidden;
+        }
+
+        .banner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .banner-overlay {
+            position: absolute;
+            inset: 0;
+            background: rgba(0,0,0,0.35);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 30px;
+        }
+
+        .main-logo {
+            width: 720px;
+            max-width: 92%;
+            height: auto;
+        }
+
+        .page-title {
+            text-align: center;
+            background: white;
+            padding: 35px 20px 20px;
+        }
+
+        .page-title h1 {
+            font-size: 42px;
+            color: #0c2d57;
+            margin-bottom: 10px;
+        }
+
+        .page-title p {
+            font-size: 18px;
+            color: #4b5563;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 0 20px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 14px;
+            padding: 30px;
+            box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+        }
+
+        .card h2 {
+            color: #0c2d57;
+            margin-bottom: 20px;
+            font-size: 28px;
+        }
+
+        .rates-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .rates-table tr {
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .rates-table td {
+            padding: 14px 0;
+            font-size: 17px;
+        }
+
+        .rates-table td:last-child {
+            text-align: right;
+            font-weight: bold;
+            color: #0c2d57;
+        }
+
+        .manager-box {
+            margin-top: 30px;
+            background: #eef4fb;
+            border-left: 5px solid #0c2d57;
+            padding: 20px;
+            border-radius: 8px;
+        }
+
+        .manager-box strong {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        label {
+            font-weight: bold;
+            color: #374151;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 8px;
+            border: 1px solid #cbd5e1;
+            font-size: 16px;
+        }
+
+        input[readonly] {
+            background: #f3f4f6;
+        }
+
+        button {
+            margin-top: 10px;
+            background: #0c2d57;
+            color: white;
+            border: none;
+            padding: 16px;
+            border-radius: 10px;
+            font-size: 17px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #15427d;
+        }
+
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: #6b7280;
+            font-size: 14px;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+            }
+
+            .banner {
+                height: 320px;
+            }
+
+            .page-title h1 {
+                font-size: 34px;
+            }
+        }
+    </style>
 </head>
-  <header class="hero">
-    <img class="hero__image" src="/images/banner.jpg" alt="Degnen Bay harbour with dock, boats, trees, and Canadian flag" />
-    <div class="hero__shade"></div>
-    <div class="hero__brand" aria-label="Degnen Bay Harbour Authority">
-      <img class="logo" src="logo.svg" alt="Degnen Bay Harbour Authority logo" />
-      <div>
-        <p class="eyebrow">Visitor Registration</p>
-        <h1>Degnen Bay<br />Harbour Authority</h1>
-      </div>
-    </div>
-  </header>
-  </header>
 
-  <main>
-    <section class="notice" aria-label="Harbour manager contact">
-      <span aria-hidden="true">☎</span>
-      <strong>Please text harbour manager upon arrival:</strong>
-      <a href="sms:2503278478">250-327-8478</a>
+<body>
+
+    <header class="banner">
+        <img src="images/banner.jpg" alt="Degnen Bay Marina">
+
+        <div class="banner-overlay">
+            <img src="images/logo.svg"
+                 alt="Degnen Bay Harbour Authority"
+                 class="main-logo">
+        </div>
+    </header>
+
+    <section class="page-title">
+        <h1>Visitor Registration</h1>
+        <p>All users must register before using harbour facilities.</p>
     </section>
 
-    <section class="content-grid">
-      <article class="card rates-card">
-        <h2>All users must register</h2>
-        <hr />
-        <h3>Transient moorage rates:</h3>
-        <dl class="rates">
-          <div><dt>Dinghy</dt><dd>$5.00 per day</dd></div>
-          <div><dt>All boats</dt><dd>$12.00 daytime <span>(until 20:00 hours)</span></dd></div>
-          <div><dt>All boats overnight</dt><dd>$1.00 per linear foot</dd></div>
-          <div><dt>Electricity connection</dt><dd>$10.00 per day</dd></div>
-        </dl>
-        <p class="info-box">Thank you for helping us keep Degnen Bay safe and welcoming.</p>
-      </article>
+    <main class="container">
 
-      <article class="card form-card">
-        <h2>Visitor Registration Form</h2>
-        <form id="registrationForm" method="post" action="/api/register" novalidate>
-          <input class="hidden" type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <section class="card">
+            <h2>Transient Moorage Rates</h2>
 
-          <label>Date
-            <input id="date" name="date" type="text" readonly aria-readonly="true" />
-          </label>
+            <table class="rates-table">
+                <tr>
+                    <td>Dinghy</td>
+                    <td>$5.00 Per Day</td>
+                </tr>
 
-          <label>Name *
-            <input name="name" type="text" autocomplete="name" required maxlength="100" />
-          </label>
+                <tr>
+                    <td>All Boats - Daytime</td>
+                    <td>$12.00 Until 20:00</td>
+                </tr>
 
-          <label>Email *
-            <input name="email" type="email" autocomplete="email" required maxlength="150" />
-          </label>
+                <tr>
+                    <td>All Boats Overnight</td>
+                    <td>$1.00 Per Linear Foot</td>
+                </tr>
 
-          <label>Phone (cell) *
-            <input name="phone" type="tel" autocomplete="tel" required maxlength="40" />
-          </label>
+                <tr>
+                    <td>Electricity Connection</td>
+                    <td>$10.00 Per Day</td>
+                </tr>
+            </table>
 
-          <label>Number of nights stay *
-            <input name="nights" type="number" inputmode="numeric" min="0" max="60" required />
-          </label>
+            <div class="manager-box">
+                <strong>Please text harbour manager upon arrival:</strong>
+                250-327-8478
+            </div>
+        </section>
 
-          <label>Vessel name *
-            <input name="vesselName" type="text" required maxlength="100" />
-          </label>
+        <section class="card">
+            <h2>Registration Form</h2>
 
-          <label>Vessel type *
-            <input name="vesselType" type="text" required maxlength="100" />
-          </label>
+            <form action="/api/register" method="POST">
 
-          <label>Vessel ID *
-            <input name="vesselId" type="text" required maxlength="100" />
-          </label>
+                <div>
+                    <label>Name</label>
+                    <input type="text" name="name" required>
+                </div>
 
-          <label>Total length (ft) *
-            <input name="totalLength" type="number" inputmode="decimal" min="1" max="300" step="0.1" required />
-          </label>
+                <div>
+                    <label>Email</label>
+                    <input type="email" name="email" required>
+                </div>
 
-          <!-- Replace YOUR_TURNSTILE_SITE_KEY in index.html after creating a Cloudflare Turnstile widget. -->
-          <div class="cf-turnstile" data-sitekey="YOUR_TURNSTILE_SITE_KEY"></div>
+                <div>
+                    <label>Phone (Cell)</label>
+                    <input type="tel" name="phone" required>
+                </div>
 
-          <button id="submitButton" type="submit">Send Registration</button>
-          <p id="formStatus" class="form-status" role="status" aria-live="polite"></p>
-          <p class="sent-to">Registration will be sent to:<br /><strong>registration@degnenbayharbourauthority.ca</strong></p>
-        </form>
-      </article>
-    </section>
-  </main>
+                <div>
+                    <label>Number of Nights Stay</label>
+                    <input type="number" name="nights" min="1" required>
+                </div>
 
-  <footer>
-    Thank you for visiting Degnen Bay. Safe travels.
-  </footer>
+                <div>
+                    <label>Vessel Name</label>
+                    <input type="text" name="vessel_name" required>
+                </div>
+
+                <div>
+                    <label>Vessel Type</label>
+                    <input type="text" name="vessel_type" required>
+                </div>
+
+                <div>
+                    <label>Vessel ID</label>
+                    <input type="text" name="vessel_id" required>
+                </div>
+
+                <div>
+                    <label>Total Length (Feet)</label>
+                    <input type="number" name="length" required>
+                </div>
+
+                <div>
+                    <label>Date</label>
+                    <input type="date"
+                           id="dateField"
+                           name="date"
+                           readonly>
+                </div>
+
+                <button type="submit">
+                    Submit Registration
+                </button>
+
+            </form>
+        </section>
+
+    </main>
+
+    <footer>
+        © Degnen Bay Harbour Authority
+    </footer>
+
+    <script>
+        const today = new Date();
+        const yyyy = today.getFullYear();
+        const mm = String(today.getMonth() + 1).padStart(2, '0');
+        const dd = String(today.getDate()).padStart(2, '0');
+
+        document.getElementById('dateField').value =
+            `${yyyy}-${mm}-${dd}`;
+    </script>
+
 </body>
 </html>
